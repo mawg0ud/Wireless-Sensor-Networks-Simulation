@@ -19,18 +19,14 @@ QoS Provision for Controlling Energy Consumption in Ad-hoc Wireless Sensor Netwo
 ### Language: 
 Matlab
 
-### Paper Link: 
-https://arxiv.org/abs/2001.02761v1
-
+### Paper Link:
+- Arxiv Version: https://arxiv.org/abs/2001.02761v1
+- Journal Version: http://www.icicel.org/ell/contents/2020/8/el-14-08-03.pdf
 
 
 #### Abstract:
 
-The research explores advanced optimization techniques for wireless sensor networks, employing a fixed topology and threshold-based analysis. The investigation encompasses power constraints, delay constraints, and bandwidth constraints, aiming to enhance the overall communication efficiency within the network.
-
-The architecture of an ad-hoc wireless sensor network is made up of nodes that are connected to each other. Each node has its own main parts, such as sensors, computing, and communication tools. Ad-hoc WSNs with limited energy sources have sensor networks that work less well and last less long. In this project, quality of service is used to show a new way to save money and control energy use.
-
-The main reason is to save energy by finding the best route that meets QoS requirements. The QoS technique is used to find the best way for nodes to send packets and use the least amount of energy. The main goal of the research is to find the best ways to: 1) Use as little energy as possible in the ad hoc wireless sensor network as a whole. 2) Make the wireless sensor network last as long as possible. Integer Linear Programming will be used to come up with the simulations of the problem.
+Ad-hoc wireless sensor network is an architecture of connected nodes; each node has its main elements such as sensors, computation and communications capabilities. Ad-hoc WSNs restrained energy sources result in a shorter lifetime of the sensor network and inefficient topology. In this paper, a new approach for saving and energy controlling is introduced using quality of service. The main reason is to reduce the node’s energy through discovering the best optimum route that meets QoS requirements; QoS technique is used to find the optimum methodology for nodes packets transmission and energy consumption. The primary goals of the research are to discover the best techniques to 1) Minimize the total consumed energy in the ad hoc wireless sensor network. 2) Maximize the ad hoc wireless sensor network lifetime. The simulations of the problem will be formulated with the use of Integer Linear Programming
 
 
 ## MATLAB Code
