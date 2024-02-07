@@ -1,6 +1,6 @@
 
 
-# Wireless Sensor Network Optimization
+# Wireless Sensor Network Simulation
 
 This repository presents a research paper and MATLAB code for optimizing wireless sensor networks using a fixed topology and threshold-based analysis.
 
