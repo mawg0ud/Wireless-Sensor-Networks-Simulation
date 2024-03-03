@@ -1,9 +1,7 @@
 
-
 # Wireless Sensor Network Simulation
 
 This repository presents a research paper and MATLAB code for optimizing wireless sensor networks using a fixed topology and threshold-based analysis.
-
 
 ## Research Paper
 
@@ -18,16 +16,36 @@ QoS Provision for Controlling Energy Consumption in Ad-hoc Wireless Sensor Netwo
 
 ### Language: 
 Matlab
-
+   
 ### Paper Link:
 - Arxiv Version: https://arxiv.org/abs/2001.02761v1
 - Journal Version: http://www.icicel.org/ell/contents/2020/8/el-14-08-03.pdf
 
-
 #### Abstract:
 
-Ad-hoc wireless sensor network is an architecture of connected nodes; each node has its main elements such as sensors, computation and communications capabilities. Ad-hoc WSNs restrained energy sources result in a shorter lifetime of the sensor network and inefficient topology. In this paper, a new approach for saving and energy controlling is introduced using quality of service. The main reason is to reduce the node’s energy through discovering the best optimum route that meets QoS requirements; QoS technique is used to find the optimum methodology for nodes packets transmission and energy consumption. The primary goals of the research are to discover the best techniques to 1) Minimize the total consumed energy in the ad hoc wireless sensor network. 2) Maximize the ad hoc wireless sensor network lifetime. The simulations of the problem will be formulated with the use of Integer Linear Programming
+Ad-hoc wireless sensor network is an architecture of connected nodes; each node has its main elements such as sensors, computation and communications capabilities. Ad-hoc WSNs restrained energy sources result in a shorter lifetime of the sensor network and inefficient topology. In this paper, a new approach for saving and energy controlling is introduced using quality of service. The main reason is to reduce the node’s energy through discovering the best optimum route that meets QoS requirements; QoS technique is used to find the optimum methodology for nodes packets transmission and energy consumption. The primary goals of the research are to discover the best techniques to: 
+1) Minimize the total consumed energy in the ad hoc wireless sensor network.
+2) Maximize the ad hoc wireless sensor network lifetime. The simulations of the problem will be formulated with the use of Integer Linear Programming.
+   
+#### Introduction
 
+Ad-hoc wireless sensor networks are decentralized networks lacking a base station infrastructure, relying on nodes to act as hosts and routers. These networks utilize multi-hop communication, where data packets are relayed through intermediate nodes. The components of a sensor node typically include radio, battery, microcontroller, analog circuit, and sensor interface.
+
+#### Related Work
+
+The paper discusses various related works on energy consumption challenges in wireless sensor networks (WSNs). It presents a comprehensive study of previous research efforts aimed at enhancing energy efficiency, optimizing transmission strategies, balancing computation and communication energy, and improving routing protocols.
+
+#### Problem Statement
+
+The research identifies the need to optimize energy consumption in ad-hoc WSNs by controlling transmission energy levels. Topology control plays a crucial role in assigning energy resources to transceivers, ensuring efficient communication while minimizing energy consumption.
+
+#### Solution Methodology
+
+The proposed solution leverages the decentralized nature of ad-hoc WSNs and employs optimization techniques to enhance network performance and energy efficiency. Quality of Service (QoS) parameters such as battery lifetime, bandwidth, and network availability are considered to ensure deterministic network behavior.
+
+#### Experimental Section
+
+Simulations were conducted to evaluate the effectiveness of the proposed approach. The experiments aimed to establish the relationship between QoS parameters, energy consumption, and network stability. Results demonstrate the impact of threshold values and traffic loads on network performance and energy consumption.
 
 ## MATLAB Code
 
