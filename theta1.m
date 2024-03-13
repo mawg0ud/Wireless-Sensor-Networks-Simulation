@@ -1,26 +1,34 @@
-function [Theta]=theta1(P1,P2)
-% function [theta]=theta1(P1,P2)
-% This function calculate the angle 
-% between two station P1 sender, P2
-% Receiver
-deltaX=P2(1)-P1(1);  
-deltaY=P2(2)-P1(2);  
+function Theta = theta1(P1, P2)
+% Calculate the angle between two points P1 and P2
 
-if (deltaX == 0) && (deltaY >= 0)
-    Theta = pi/2; 
-elseif (deltaX == 0) && (deltaY < 0)
-    Theta=3*pi/2;  
-elseif (deltaX >= 0) && (deltaY == 0)
-    Theta=0;      
-elseif (deltaX < 0) && (deltaY == 0)
-    Theta=pi;      
-elseif (deltaX > 0) && (deltaY > 0)
-    Theta=atan(abs(deltaY/deltaX)); 
-elseif (deltaX < 0) && (deltaY > 0) 
-    Theta=pi-atan(abs(deltaY/deltaX));     
-elseif (deltaX < 0) && (deltaY < 0) 
-    Theta=pi+atan(abs(deltaY/deltaX));         
-else (deltaX > 0) && (deltaY < 0); 
-    Theta=2*pi-atan(abs(deltaY/deltaX));             
-end;      
-Theta=Theta*180/pi;  
+% Calculate the differences in coordinates
+deltaX = P2(1) - P1(1);
+deltaY = P2(2) - P1(2);
+
+% Calculate the angle
+if deltaX == 0
+    if deltaY >= 0
+        Theta = pi/2;
+    else
+        Theta = 3*pi/2;
+    end
+elseif deltaY == 0
+    if deltaX >= 0
+        Theta = 0;
+    else
+        Theta = pi;
+    end
+elseif deltaX > 0 && deltaY > 0
+    Theta = atan(deltaY / deltaX);
+elseif deltaX < 0 && deltaY > 0
+    Theta = pi - atan(abs(deltaY) / abs(deltaX));
+elseif deltaX < 0 && deltaY < 0
+    Theta = pi + atan(abs(deltaY) / abs(deltaX));
+else
+    Theta = 2*pi - atan(abs(deltaY) / abs(deltaX));
+end
+
+% Convert angle to degrees
+Theta = rad2deg(Theta);
+
+end
