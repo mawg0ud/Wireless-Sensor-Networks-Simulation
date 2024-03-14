@@ -1,7 +1,3 @@
-% Use reqBank4 to generate "Req_Bank_n_15_B_500.mat",
-% make sure that it has the same lamdam, and lamdamV
-% Also, use the fixed topology using topology_generation3.m
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clear
 close all
@@ -11,12 +7,9 @@ echo off
 format short g
 format compact   
 
-% Assume minimum distance in X, and Y between
-% stations
 
 string_table=[];   
 
-% Assume number of stations n
 
 ppmatrix=[];   
 Band=500;   
@@ -34,9 +27,6 @@ for k=1:n
         dij(k,kk)=sqrt((cen1(k,1)-cen1(kk,1))^2+(cen1(k,2)-cen1(kk,2))^2);    
     end;
 end;
-
-% Calculate the stations within range to each one
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 for k=1:n 
     ss=['station',num2str(k)];   
@@ -57,8 +47,6 @@ for k=1:n
     end;    
 end;  
 
-% Calculate the stations within range to each one
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 xij=zeros(n);
 for k=1:n 
     ss=['station',num2str(k)];   
@@ -66,18 +54,10 @@ for k=1:n
     xij(k,k1)=1;
 end;       
 
-% assuming a value to alpha
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 alpha=2;    
          
 Band=500;             
 
-% lamdamV=.025*Band:.025*Band:.25*Band;   
-lamdamV=.025*Band:.025*Band;   
-% Threshold values
-%%%%%%%%%%%%%%%%%%%
-% Thr=(0.32*m)^2:(0.05*m)^2:(0.9*m)^2;  
-% Thr=60:10:150;  
 Thr=60;  
 Thr_count=0;
 
@@ -88,29 +68,12 @@ Thr_count=Thr_count+1;
 countLamda=0;  
 counter=0;       
 
-% for lamdam=.025*Band:.025*Band:.25*Band   
 for lamdam=.025*Band:.025*Band 
 countLamda=countLamda+1;  
     
-% the power matrix
-%%%%%%%%%%%%%%%%%%%%%%
 pij=zeros(n);   
 
 for n_runs=1:10                     
-
-% cen1=stationsN(n,m,neighbor_limit);   
-
-
-% Generate random numbers with mean lamdam and 
-% variance lamdam/2
-% Pick a request lamda_s_d
-% 
-%   
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Fixed Number pf requests for all runs
-% for threshold analysis
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 load Req_Bank_n_15_B_500;   
 eval(['reqmatAll=reqmat_run_',num2str(n_runs),';']);     
@@ -119,21 +82,10 @@ reqmat=reqmatAll(Ind1,:);
 reqmat=reqmat(:,1:3);   
 clear reqmat_run_* reqmatAll   
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Fixed Number pf requests for all runs
-% for threshold analysis
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Initilization
-%%%%%%%%%%%%%%%%
-
 consP=0;   
 Tlamda_sd=0;       
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
-% consider number of requests
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 eval(['status_Thr_',num2str(Thr_count),'_run_',num2str(n_runs), ...
     '_lamda_',num2str(countLamda),'=[];']);       
 eval(['string_table_Thr_',num2str(Thr_count),'_run_', ...
@@ -141,17 +93,11 @@ eval(['string_table_Thr_',num2str(Thr_count),'_run_', ...
 
 for nr=1:size(reqmat,1)             
     
-% Pick any request    
-%%%%%%%%%%%%%%%%%%%%
-% kk=randi(size(reqmat,1));   
 
 lamda_sd=reqmat(nr,1);   
 s=reqmat(nr,2);   
 d=reqmat(nr,3);   
 
-% Generate the power vector
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% PVij=ppij';    
 PVij=transpose(dij.^alpha);    
 Vxij=xij';   
 PVij=PVij(:);   
@@ -165,19 +111,6 @@ B_L_eq=[];
 A_eq=[];
 B_eq=[];   
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% The maximum power level Pmax
-% Or use the total power
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Power constraint
-% The total power
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Power constraint as in the old paper
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TPower=sum(sum(triu(pij).*triu(xij)));    
-% P>=pi>=dij^alpha*xij   
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 PPmax=5e4;   
 ppi=sum(pij');    
 if max(ppi) > 0   
@@ -185,59 +118,10 @@ if max(ppi) > 0
 else
     max_node=randi(n,1);
 end;       
-max_node=max_node(1);   
-% P_constraint=ppi(max_node)-Thr(n_runs) 
-% if max(ppi)>0
-%     P_constraint=mean(ppi(find(ppi)))+Thr(vv)                    
-% else
-%     P_constraint=Thr(vv)                
-% end;   
-% for i=1:n    
-%     % pci is the consumed power in node i   
-%     pci=[zeros(length(1:(i-1)),n);pij(i,:)+dij(i,:).^alpha; ...
-%             zeros(length((i+1):n),n)];     
-%     % For the consumed power at node i
-%     pci=pci';
-%     pci=pci(:); 
-%     pci=pci';  
-%     % Variance constraint OUR invention
-%     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
-%     % To reduce the variance
-%     % pi>PPmin           
-%     cond1=[ (ppi(s) < P_constraint ) && ...
-%         (max(ppi) > 0) && ...
-%         ( (nr >3) ) ];      
-%     if  cond1 
-%         A_L_eq=[A_L_eq;pci];          
-%         B_L_eq=[B_L_eq;P_constraint];    
-%     end;       
-%     for j=1:n
-%         A_L_eq=[A_L_eq;pci];          
-%         ddij=PPmax-(dij(i,j).^alpha)*xij(i,j);   
-%         B_L_eq=[B_L_eq;ddij];    
-%         A_L_eq=[A_L_eq;pci];          
-%         B_L_eq=[B_L_eq;PPmax];                    
-%     end   
-% end;    
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Delay constraint
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% delta_sd   
-% less than or equal constraint
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Assume a value for delta_sd
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% delta_sd=ceil(2*n/3);  
+max_node=max_node(1);
 delta_sd=2;  
 A_L_eq=[A_L_eq;ones(1,n*n)];    
-B_L_eq=[B_L_eq;delta_sd];     
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Bandwidth constraint
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% The Bandwidth B
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+B_L_eq=[B_L_eq;delta_sd];
 
 AAA=[];   
 for i=1:n   
@@ -252,9 +136,6 @@ end;
 A_L_eq=[A_L_eq;AAA];    
 B_L_eq=[B_L_eq;(Band/lamda_sd)*ones(n,1)];    
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% New set of constraints
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 AA1=[];   
 for i=1:n   
     AA=zeros(n);  
@@ -276,17 +157,12 @@ end;
 A_eq=[A_eq;AA1];    
 
 
-% Another set of less than or equal   
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 AA=eye(n*n);    
 B=xij';
 B=B(:);
 A_L_eq=[A_L_eq;AA];    
 B_L_eq=[B_L_eq;B];     
 
-% Mixed integer linear programming function
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 lb=zeros(1,n*n);   
 ub=ones(1,n*n);   
 e=2^-24;   
@@ -310,8 +186,6 @@ if status ==1
     destination=d
     route=pp1    
 
-% Calculate the stations within range to each one
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 xij=zeros(n);
 for k=1:n 
     ss=['station',num2str(k)];   
@@ -348,12 +222,7 @@ if status ==1
     eval(['string_table_Thr_',num2str(Thr_count),'_run_', ...
         num2str(n_runs),'_lamda_',num2str(countLamda), ...
         '=strvcat(string_table_Thr_',num2str(Thr_count),'_run_', ...
-        num2str(n_runs),'_lamda_',num2str(countLamda),',path_string);']);           
-%    figstr=['fig',num2str(counter),'_s_',num2str(s),'_d_',num2str(d)];  
-%    saveas(gcf,figstr,'bmp')    
-    ppi=sum(pij');   
-%     imax=find(ppi == max(ppi));   
-%     imax=imax(1);   
+        num2str(n_runs),'_lamda_',num2str(countLamda),',path_string);']);
     eval(['pmatrix_run_',num2str(n_runs),'_lamda_', ...
         num2str(countLamda),'_req_',num2str(nr),'.power=ppi']);   
 else 
@@ -368,12 +237,6 @@ end;
 
 
 end   % lamda_s_d   (request)
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% Graphs
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 for k=1:length(lamdamV)
     ind=find(table1.lamdam==lamdamV(k));   
     if ~isempty(ind)    
@@ -401,13 +264,6 @@ Var1(countLamda,vv)=var(ppi/max(ppi))
 end   % lamda_m
 
 end;  % vv end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Power Plots
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Arranging the requests
-%%%%%%%%%%%%%%%%%%%%%%%%%
 
 for k1=1:n_runs
     for k2=1:length(lamdamV)
@@ -456,42 +312,6 @@ end;
 
 NLostV=LostV/max(LostV);   
 
-% h1=plot(Thr,Var1(1,:),':rs',Thr,Var1(2,:),'-b^', ...
-%     Thr,Var1(3,:),':g^',Thr,Var1(4,:),'-m^');   
-% set(h1,'LineWidth',2);  
-% xlabel('The threshold values added to the mean');
-% ylabel('The Variance');
-% title('Variance versus the threshold values-10 runs');   
-% legend('\lambda_m=12.5','\lambda_m=25', ...
-%     '\lambda_m=37.5','\lambda_m=50');   
-% 
-% figure
-% h1=plot(Thr,Var1(5,:),':rs',Thr,Var1(6,:),'-b^', ...
-%     Thr,Var1(7,:),':g^',Thr,Var1(8,:),'-m^', ...
-%     Thr,Var1(9,:),':y*',Thr,Var1(10,:),'-go');   
-% set(h1,'LineWidth',2);  
-% xlabel('The threshold values added to the mean');
-% ylabel('The Variance');
-% title('Variance versus the threshold values-10 runs');   
-% legend('\lambda_m=67.5','\lambda_m=75', ...
-%     '\lambda_m=87.5','\lambda_m=100', ...
-%     '\lambda_m=112.5','\lambda_m=125');   
-% 
-% 
-% % axis([55 100 .04 .09]); grid    
-% figure
-% h2=plot(Thr,LLostV(1,:),':bs',Thr,LLostV(2,:),'-.m^'); 
-% set(h2,'LineWidth',2);
-% xlabel('The threshold values added to the mean');
-% ylabel('Number of Lost packets');
-% title('Lost Packets Versus the Threshold Values');   
-% legend('\lambda_m=25','\lambda_m=50'); 
-% axis([60 200 10 40]);
-% 
-
-
-% Table Generation
-%%%%%%%%%%%%%%%%%%%%%
 for k3=1:countLamda   
     for k1=1:length(Thr)
         for k2=1:n_runs   
@@ -528,17 +348,5 @@ for k3=1:countLamda
     end;
 end;
 
-save ex2_data   
-
-
-
-
-
-
-
-
-
-
-
-
+save ex2_data  
 
